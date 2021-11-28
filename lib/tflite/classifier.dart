@@ -27,7 +27,7 @@ class Classifier {
   static const double THRESHOLD = 0.5;
 
   /// [ImageProcessor] used to pre-process the image
-  late ImageProcessor imageProcessor;
+  ImageProcessor? imageProcessor;
 
   /// Padding the image to transform into square
   late int padSize;
@@ -89,7 +89,8 @@ class Classifier {
           .add(ResizeOp(INPUT_SIZE, INPUT_SIZE, ResizeMethod.BILINEAR))
           .build();
     }
-    inputImage = imageProcessor.process(inputImage);
+
+    inputImage = imageProcessor!.process(inputImage);
     return inputImage;
   }
 
@@ -170,8 +171,8 @@ class Classifier {
         // inverse of rect
         // [locations] corresponds to the image size 300 X 300
         // inverseTransformRect transforms it our [inputImage]
-        Rect transformedRect = imageProcessor.inverseTransformRect(
-            locations[i], image.height, image.width);
+        Rect transformedRect = imageProcessor!
+            .inverseTransformRect(locations[i], image.height, image.width);
 
         recognitions.add(
           Recognition(i, label, score, transformedRect),
